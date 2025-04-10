@@ -32,14 +32,17 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/health-mate-project:latest
 
-  notify:
-    needs: build  # This ensures the notify job runs only after the build job completes
+  slackNotification:
+    name: Slack Notification
     runs-on: ubuntu-latest
+    needs: build  # Ensure this runs only after the build job
     steps:
-      - name: Notify Slack
+      - uses: actions/checkout@v3
+
+      - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
-        with:
-          status: ${{ job.status }}
-          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: "Docker image for Health_Mate_Project has been built and pushed to Docker Hub!"
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: "The Docker image for **Health_Mate_Project** has been successfully built and pushed to Docker Hub!"
+          SLACK_TITLE: "Build Status"
 
