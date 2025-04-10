@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,8 +30,12 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/health-mate-project:latest 
+          docker push ${{ secrets.DOCKER_USERNAME }}/health-mate-project:latest
 
+  notify:
+    needs: build  # This ensures the notify job runs only after the build job completes
+    runs-on: ubuntu-latest
+    steps:
       - name: Notify Slack
         uses: rtCamp/action-slack-notify@v2
         with:
