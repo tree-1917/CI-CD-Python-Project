@@ -33,10 +33,10 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/health-mate-project:latest 
 
-      # - name: Notify Slack
-      #   uses: rtCamp/action-slack-notify@v2
-      #   with:
-      #     status: ${{ job.status }}
-      #     webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     message: "Docker image for Health_Mate_Project has been built and pushed to Docker Hub!"
+      - name: Notify Slack
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          status: ${{ job.status }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: "Docker image for Health_Mate_Project has been built and pushed to Docker Hub!"
 
