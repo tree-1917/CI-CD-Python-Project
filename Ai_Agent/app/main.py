@@ -12,3 +12,8 @@ app = FastAPI(
 # == Routes 
 app.include_router(model1_route.router)
 
+# == Functions 
+@app.get("/version")
+async def get_version():
+    """Return Version""" 
+    return {"Version": "V0.0.1"}
